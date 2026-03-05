@@ -4,18 +4,268 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zpěvník – stažení</title>
+  <meta name="description" content="Stažení aktuálního zpěvníku v PDF." />
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 20px; }
-    a.btn { display:inline-block; padding: 12px 16px; border-radius: 10px; text-decoration:none; border:1px solid #333; }
-    small { color:#555; }
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --line: rgba(255,255,255,.16);
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 20% 10%, #1f3a6d 0%, transparent 60%),
+                  radial-gradient(900px 700px at 80% 20%, #3b1b5a 0%, transparent 55%),
+                  linear-gradient(180deg, var(--bg), #050814);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 16px;
+    }
+    .wrap{
+      width: 100%;
+      max-width: 860px;
+    }
+    .header{
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--muted);
+      backdrop-filter: blur(10px);
+    }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #7CFFB2;
+      box-shadow: 0 0 0 6px rgba(124,255,178,.12);
+      flex: 0 0 auto;
+    }
+    h1{
+      margin: 8px 0 0;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+    p.lead{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 62ch;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .card{
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .inner{ padding: 18px; }
+    .cta{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items:center;
+      margin-top: 14px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color: var(--text);
+      text-decoration:none;
+      font-weight: 650;
+      letter-spacing: .01em;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.30); }
+    .btn:active{ transform: translateY(0px); }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(124,255,178,.22), rgba(124,255,178,.10));
+      border-color: rgba(124,255,178,.55);
+    }
+    .btn.primary:hover{ background: linear-gradient(180deg, rgba(124,255,178,.28), rgba(124,255,178,.14)); }
+    .meta{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 520px){
+      .meta{ grid-template-columns: 1fr; }
+    }
+    .pill{
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .pill b{ color: var(--text); font-weight: 650; }
+    .hint{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .right{
+      display:grid;
+      gap: 16px;
+      align-content:start;
+    }
+    .qrbox{
+      display:grid;
+      gap: 10px;
+      place-items:center;
+      text-align:center;
+    }
+    .qr{
+      width: 180px;
+      height: 180px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.92);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .qr img{ width: 100%; height: 100%; object-fit: cover; }
+    .small{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .footer{
+      margin-top: 16px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    code.kbd{
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.75);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
-  <h1>Zpěvník</h1>
-  <div class="card">
-    <p><a class="btn" href="zpevnik.pdf">Stáhnout aktuální PDF</a></p>
-    <p><small>Verze: 05.03.2026</small></p>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <div class="badge"><span class="dot"></span> Aktuální verze je veřejně dostupná</div>
+        <h1>Zpěvník tábora</h1>
+        <p class="lead">
+          Tady vždy najdeš nejnovější PDF zpěvníku pro stažení a tisk. Odkaz a QR kód zůstávají stejné – mění se jen obsah souboru.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="inner">
+          <h2 style="margin:0 0 6px; font-size: 18px;">Stažení</h2>
+          <div class="cta">
+            <!-- UPRAV: název PDF souboru -->
+            <a class="btn primary" href="zpevnik.pdf" download>
+              ⬇️ Stáhnout zpěvník (PDF)
+            </a>
+            <a class="btn" href="zpevnik.pdf" target="_blank" rel="noopener">
+              👁️ Otevřít v prohlížeči
+            </a>
+          </div>
+
+          <div class="meta">
+            <!-- UPRAV: datum verze -->
+            <div class="pill"><b>Verze:</b> 5. 3. 2026</div>
+            <!-- UPRAV: formát / poznámka -->
+            <div class="pill"><b>Tisk:</b> A4, ideálně oboustranně</div>
+          </div>
+
+          <p class="hint">
+            Tip: Pokud se ti při stažení ukazuje stará verze, zkus stránku obnovit (<code class="kbd">Ctrl</code> + <code class="kbd">F5</code>) nebo otevři odkaz v anonymním okně.
+          </p>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="card">
+          <div class="inner qrbox">
+            <h2 style="margin:0; font-size: 18px;">QR kód</h2>
+            <div class="qr" title="Vlož vlastní QR obrázek">
+              <!-- VOLITELNÉ: nahraj do repa obrázek qr.png (nebo qr.svg) a odkomentuj řádek níž -->
+              <!-- <img src="qr.png" alt="QR kód na tuto stránku"> -->
+              <div style="padding:14px; color:#111; font-weight:700; font-size:14px;">
+                (sem vlož QR obrázek)
+              </div>
+            </div>
+            <div class="small">
+              Pro tisk doporučuji QR ≥ 30&nbsp;mm a nechat kolem prázdný okraj.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h2 style="margin:0 0 6px; font-size: 18px;">Krátká adresa</h2>
+            <div class="pill">
+              <!-- UPRAV: adresa stránky -->
+              <b>URL:</b> <span style="word-break: break-word;">https://TVUJUCET.github.io/zpevnik/</span>
+            </div>
+            <p class="small" style="margin:10px 0 0;">
+              (Hodí se vytisknout i jako text pod QR, kdyby někdy nešel sken.)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© Tábor / zpěvník – veřejné sdílení</div>
+      <div>Kontakt: doplň dle potřeby</div>
+    </div>
   </div>
 </body>
 </html>
