@@ -194,7 +194,11 @@
       border: 1px solid rgba(255,255,255,.35);
       box-shadow: 0 16px 34px rgba(0,0,0,.25);
     }
-
+    .qr a{
+      display:block;
+      width:100%;
+      height:100%;
+    }
     .qr img{
       width: 100%;
       height: 100%;
@@ -243,14 +247,16 @@
       </div>
 
       <div class="qrSection">
-        <p class="qrTitle">QR kód</p>
-        <div class="qrWrap">
-          <div class="qr" title="QR kód na zpěvník">
-             <a href = "./zpevnik.pdf"> <img src="qrcode_patrik-jakubik.github.io.png">
-            </a>
-          </div>
-        </div>
-      </div>
+  <p class="qrTitle">QR kód</p>
+  <div class="qrWrap">
+    <div class="qr" title="QR kód na zpěvník">
+      <a href="zpevnik.pdf" target="_blank" rel="noopener">
+        <img src="qrcode_patrik-jakubik.github.io.png"
+             alt="QR kód – otevřít zpěvník (PDF)">
+      </a>
+    </div>
+  </div>
+</div>
     </div>
 
     <div class="footer">© Patrik Jakubík, 2026</div>
