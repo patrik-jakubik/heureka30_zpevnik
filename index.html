@@ -3,181 +3,164 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zpěvník Heureky - 30 let </title>
-  <meta name="description" content="Aktuální verze zpěvníku v PDF." />
+  <title>Zpěvník Heureky</title>
+  <meta name="description" content="Nejnovější verze zpěvníku v PDF – zobrazení a stažení." />
+
   <style>
     :root{
-      --bg: #f7f6f2;
-      --paper: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-      --line: rgba(17,24,39,.10);
-      --shadow: 0 10px 30px rgba(17,24,39,.08);
-      --radius: 18px;
+      /* Příjemná barva (teal). Můžeš změnit na jinou: #2563eb (modrá), #7c3aed (fialová), #ea580c (oranžová) */
+      --accent: #0f766e;
+      --accent-2: #14b8a6;
 
-      /* klidný akcent (žádná neonová zelená) */
-      --accent: #1f4e79;
-      --accent-weak: rgba(31,78,121,.10);
-      --accent-line: rgba(31,78,121,.22);
+      --bg: #f7faf9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 23, 42, .10);
+      --shadow: 0 12px 28px rgba(15, 23, 42, .10);
+      --radius: 18px;
     }
 
-    *{ box-sizing:border-box; }
+    *{ box-sizing: border-box; }
     body{
-      margin:0;
+      margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
       background:
-        radial-gradient(1000px 700px at 15% 10%, rgba(31,78,121,.08), transparent 60%),
-        radial-gradient(900px 650px at 85% 20%, rgba(120,90,60,.06), transparent 55%),
-        linear-gradient(180deg, var(--bg), #f1f0ea);
+        radial-gradient(900px 600px at 10% 0%, rgba(20,184,166,.16), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(15,118,110,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg), #f2f7f6);
       color: var(--text);
-      min-height: 100vh;
-      padding: 28px 16px 34px;
     }
 
     .wrap{
-      width:100%;
-      max-width: 980px;
+      max-width: 520px;   /* mobile-first: úzký sloupec */
       margin: 0 auto;
+      padding: 18px 16px 92px; /* dole necháme místo pro sticky CTA */
     }
 
-    /* horní lišta */
-    .top{
+    .topbar{
       display:flex;
-      align-items:flex-start;
+      align-items:center;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
-    .status{
+    .badge{
       display:inline-flex;
       align-items:center;
-      gap:10px;
+      gap: 10px;
       padding: 8px 12px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.60);
       border-radius: 999px;
-      font-size: 13px;
-      color: var(--muted);
+      background: rgba(255,255,255,.70);
+      border: 1px solid var(--line);
       backdrop-filter: blur(8px);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1;
     }
     .dot{
       width: 9px;
       height: 9px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 0 5px rgba(31,78,121,.10);
+      box-shadow: 0 0 0 5px rgba(20,184,166,.18);
       flex: 0 0 auto;
     }
 
     h1{
-      margin: 10px 0 0;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.1;
+      margin: 10px 0 8px;
+      font-size: 30px;
       letter-spacing: -0.02em;
+      line-height: 1.08;
     }
 
     .lead{
-      margin: 10px 0 0;
+      margin: 0 0 14px;
       color: var(--muted);
-      font-size: 16px;
+      font-size: 15.5px;
       line-height: 1.6;
-      max-width: 70ch;
     }
 
-    /* layout */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 16px;
-      margin-top: 18px;
-    }
-    @media (max-width: 880px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
-    /* karty */
     .card{
-      background: rgba(255,255,255,.78);
+      background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      overflow:hidden;
+      overflow: hidden;
     }
-    .inner{ padding: 18px; }
+    .card + .card{ margin-top: 14px; }
 
-    .card h2{
-      margin: 0 0 10px;
-      font-size: 16px;
-      letter-spacing: .01em;
+    .section{
+      padding: 16px;
     }
 
-    .cta{
+    .titleRow{
       display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .h2{
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(71,85,105,.95);
+      margin: 0;
+    }
+
+    .metaPill{
+      display:inline-flex;
       align-items:center;
-      margin-top: 6px;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(71,85,105,.95);
+      background: rgba(15,118,110,.08);
+      border: 1px solid rgba(15,118,110,.18);
+      border-radius: 999px;
+      padding: 7px 10px;
+      white-space: nowrap;
+    }
+
+    .btnrow{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     .btn{
-      display:inline-flex;
+      display:flex;
       align-items:center;
       justify-content:center;
       gap: 10px;
-      padding: 12px 14px;
+      width: 100%;
+      padding: 13px 14px;
       border-radius: 14px;
-      border: 1px solid rgba(17,24,39,.14);
-      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(15,23,42,.14);
+      background: #fff;
       color: var(--text);
       text-decoration:none;
-      font-weight: 650;
-      transition: transform .08s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(15,23,42,.08);
+      transition: transform .08s ease, box-shadow .12s ease, border-color .12s ease;
       user-select:none;
-      box-shadow: 0 6px 16px rgba(17,24,39,.06);
+      -webkit-tap-highlight-color: transparent;
     }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(17,24,39,.20);
-      box-shadow: 0 10px 22px rgba(17,24,39,.08);
-    }
-    .btn:active{ transform: translateY(0px); }
+    .btn:active{ transform: translateY(1px); box-shadow: 0 6px 14px rgba(15,23,42,.08); }
 
-    /* primární = OTEVŘÍT */
     .btn.primary{
-      background: linear-gradient(180deg, rgba(31,78,121,.14), rgba(31,78,121,.08));
-      border-color: var(--accent-line);
-    }
-    .btn.primary:hover{
-      background: linear-gradient(180deg, rgba(31,78,121,.18), rgba(31,78,121,.10));
-      border-color: rgba(31,78,121,.32);
+      background: linear-gradient(180deg, rgba(20,184,166,.22), rgba(15,118,110,.12));
+      border-color: rgba(15,118,110,.30);
     }
 
-    /* sekundární (tiché) */
     .btn.secondary{
-      background: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.96);
     }
-
-    .meta{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .pill{
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(31,78,121,.06);
-      border: 1px solid rgba(31,78,121,.12);
-      color: rgba(17,24,39,.80);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-    .pill b{ color: var(--text); font-weight: 700; }
 
     .hint{
-      margin-top: 14px;
+      margin: 12px 0 0;
       color: var(--muted);
       font-size: 13px;
       line-height: 1.55;
@@ -186,151 +169,146 @@
     code.kbd{
       padding: 2px 6px;
       border-radius: 8px;
-      border: 1px solid rgba(17,24,39,.14);
-      background: rgba(255,255,255,.80);
-      color: rgba(17,24,39,.85);
+      border: 1px solid rgba(15,23,42,.14);
+      background: rgba(248,250,252,.95);
+      color: rgba(15,23,42,.85);
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
     }
 
-    /* pravý sloupec */
-    .right{
-      display:grid;
-      gap: 16px;
-      align-content:start;
-    }
-
-    .qrbox{
+    .qrWrap{
       display:flex;
-      flex-direction: column;
       align-items:center;
-      text-align:center;
-      gap: 10px;
+      justify-content:center;
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(15,118,110,.05), transparent);
     }
 
     .qr{
-      width: 210px;
-      height: 210px;
+      width: 220px;
+      height: 220px;
       border-radius: 18px;
-      background: #ffffff;
-      border: 1px solid rgba(17,24,39,.10);
-      box-shadow: 0 10px 22px rgba(17,24,39,.06);
+      background: #fff;
+      border: 1px solid rgba(15,23,42,.10);
+      box-shadow: 0 10px 22px rgba(15,23,42,.07);
       display:flex;
       align-items:center;
       justify-content:center;
       overflow:hidden;
-      padding: 10px; /* trochu “tichá zóna” kolem QR */
+      padding: 10px; /* tichá zóna */
     }
     .qr img{
-      display:block;
-      width: 100%;
-      height: 100%;
+      width:100%;
+      height:100%;
       object-fit: contain;
+      display:block;
     }
 
-    .small{
-      margin:0;
+    .qrText{
+      text-align:center;
       color: var(--muted);
-      font-size: 12.5px;
+      font-size: 13px;
       line-height: 1.45;
-      max-width: 42ch;
+      padding: 0 16px 16px;
+      margin: 0;
+    }
+
+    /* Sticky bar dole pro mobil: primární akce pořád po ruce */
+    .sticky{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 12px 12px;
+      background: rgba(247,250,249,.78);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(15,23,42,.10);
+    }
+    .stickyInner{
+      max-width: 520px;
+      margin: 0 auto;
+      display:flex;
+      gap: 10px;
+    }
+    .sticky a{
+      flex: 1 1 auto;
+      padding: 12px 12px;
+      border-radius: 14px;
+      text-align:center;
+      text-decoration:none;
+      font-weight: 800;
+      border: 1px solid rgba(15,23,42,.14);
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 10px 22px rgba(15,23,42,.08);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sticky a.primary{
+      background: linear-gradient(180deg, rgba(20,184,166,.22), rgba(15,118,110,.12));
+      border-color: rgba(15,118,110,.30);
     }
 
     .footer{
-      margin-top: 18px;
-      color: rgba(17,24,39,.55);
+      margin-top: 14px;
+      text-align:center;
+      color: rgba(71,85,105,.75);
       font-size: 12px;
-      display:flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 0 4px;
-    }
-
-    .linkline{
-      margin-top: 10px;
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      justify-content:center;
-      color: var(--muted);
-      font-size: 12.5px;
-    }
-    .linkline a{
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(31,78,121,.25);
-    }
-    .linkline a:hover{
-      border-bottom-color: rgba(31,78,121,.45);
+      padding: 8px 0 0;
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="top">
-      <div>
-        <div class="status"><span class="dot"></span> Aktuální verze je veřejně dostupná</div>
-        <h1>Zpěvník Heureky</h1>
-        <p class="lead">
-          Tady vždy najdeš nejnovější PDF zpěvníku pro zobrazení nebo stažení. Odkaz i QR kód zůstávají stejné a mění se jen obsah. 
+    <div class="topbar">
+      <div class="badge"><span class="dot"></span> Aktuální verze </div>
+    </div>
+
+    <h1>Zpěvník Heureky</h1>
+    <p class="lead">
+      Nejnovější PDF zpěvníku pro zobrazení na mobilu i pro tisk. Odkaz a QR kód zůstávají stejné (tj. mění se jen obsah souboru).
+    </p>
+
+    <div class="card">
+      <div class="section">
+        <div class="titleRow">
+          <p class="h2">Zpěvník (PDF)</p>
+          <span class="metaPill">Verze: <b>5. 3. 2026 (27 písniček z 43)</b></span>
+        </div>
+
+        <div class="btnrow">
+          <!-- Primární = Otevřít -->
+          <a class="btn primary" href="zpevnik.pdf" target="_blank" rel="noopener">
+            👁️ Otevřít v prohlížeči
+          </a>
+
+          <!-- Sekundární = Stáhnout -->
+          <a class="btn secondary" href="zpevnik.pdf" download>
+            ⬇️ Stáhnout PDF
+          </a>
+        </div>
+
+        <p class="hint">
+          Pokud vidíš starou verzi: zkus obnovit stránku nebo si otevři odkaz v anonymním okně.
         </p>
       </div>
-    </div>
 
-    <div class="grid">
-      <!-- LEVÁ karta -->
-      <div class="card">
-        <div class="inner">
-          <h2>Zpěvník (PDF)</h2>
-
-          <div class="cta">
-            <!-- primární = otevřít -->
-            <a class="btn primary" href="zpevnik.pdf" target="_blank" rel="noopener">
-              👁️ Otevřít v prohlížeči
-            </a>
-            <!-- sekundární = stáhnout -->
-            <a class="btn secondary" href="zpevnik.pdf" download>
-              ⬇️ Stáhnout PDF
-            </a>
-          </div>
-
-          <div class="meta">
-            <div class="pill"><b>Verze:</b> 5. 3. 2026 (27/43)</div>
-          </div>
-
-          <p class="hint">
-            Pokud se ti zobrazuje stará verze: obnov stránku (<code class="kbd">Ctrl</code> + <code class="kbd">F5</code>) nebo otevři odkaz v anonymním okně.
-          </p>
-        </div>
-      </div>
-
-      <!-- PRAVÉ karty -->
-      <div class="right">
-        <div class="card">
-          <div class="inner qrbox">
-            <h2 style="margin:0;">QR kód</h2>
-
-            <div class="qr" title="QR kód na tuto stránku">
-              <img src="qrcode_patrik-jakubik.github.io.png" alt="QR kód na tuto stránku">
-            </div>
-
-
-            <!-- volitelné: krátká adresa pod QR -->
-            <!--
-            <div class="linkline">
-              <span>URL:</span>
-              <a href="https://TVUJUCET.github.io/zpevnik/" target="_blank" rel="noopener">https://TVUJUCET.github.io/zpevnik/</a>
-            </div>
-            -->
-          </div>
+      <div class="qrWrap">
+        <div class="qr" title="QR kód na zpěvník">
+          <img src="qrcode_patrik-jakubik.github.io.png" alt="QR kód">
         </div>
       </div>
     </div>
 
-    <div class="footer">
-      <div>© Patrik Jakubík, 2026</div>
+    <div class="footer">© Patrik Jakubík, 2026</div>
+  </div>
+
+  <!-- Sticky CTA (mobil) -->
+  <div class="sticky" aria-hidden="false">
+    <div class="stickyInner">
+      <a class="primary" href="zpevnik.pdf" target="_blank" rel="noopener">Otevřít</a>
+      <a href="zpevnik.pdf" download>Stáhnout</a>
     </div>
   </div>
 </body>
